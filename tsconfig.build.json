@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "target": "ES2020",
+    "types": ["node", "reflect-metadata"],
+    "lib": ["ES2020", "ES2019", "esnext.asynciterable"],
+    "esModuleInterop": true,
+    "noImplicitAny": false,
+    "noErrorTruncation": true,
+    "sourceMap": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "declaration": false,
+    "pretty": false,
+    "allowJs": false,
+    "forceConsistentCasingInFileNames": false,
+    "outDir": "dist",
+    "baseUrl": ".",
+    "incremental": true,
+    "skipLibCheck": true
+  },
+  "include": ["./src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
