@@ -1,7 +1,6 @@
 src/
 node_modules/
 .prettierrc
-.swcrc
 package-lock.json
 tsconfig.json
 tsconfig.build.json
