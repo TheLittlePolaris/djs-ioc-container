@@ -9,9 +9,9 @@ import {
 } from 'discord.js';
 
 import { samePermissions } from '../../helpers';
-import { COMMAND_HANDLER } from '../../constants';
+import { COMMAND_HANDLER, EVENT_HANDLER, EVENT_HANDLER_CONFIG } from '../../constants';
 import { ExecutionContext } from '../../execution-context';
-import { ICommandHandlerMetadata } from '../../interfaces';
+import { ConstructorType, DiscordEvent, DiscordEventConfig, ICommandHandlerMetadata } from '../../interfaces';
 import { Logger } from '../../logger';
 import {
   createMethodDecorator,
@@ -118,3 +118,11 @@ export const MsgGuild = createParameterDecorator((context) => getMessageProperty
 export const MsgChannel = createParameterDecorator((context) =>
   getMessageProperty(context, 'channel')
 );
+
+
+export function OnEvent(event: DiscordEvent, config?: DiscordEventConfig[DiscordEvent]) {
+  return (target: ConstructorType) => {
+    Reflect.defineMetadata(EVENT_HANDLER, event, target);
+    if (config) Reflect.defineMetadata(EVENT_HANDLER_CONFIG, config, target);
+  };
+}
