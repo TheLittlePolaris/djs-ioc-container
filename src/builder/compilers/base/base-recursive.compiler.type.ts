@@ -1,4 +1,4 @@
-import { DiscordEvent, DiscordEventConfig } from '../../../constants';
+import { DiscordEvent, DiscordEventConfig } from '../../../interfaces';
 import { ExecutionContext } from '../../../event-execution-context';
 
 export type BaseHandler<TReturn> = (context: ExecutionContext) => TReturn;

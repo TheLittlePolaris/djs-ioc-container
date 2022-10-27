@@ -2,7 +2,7 @@
 
 import { Client, ClientEvents, Events } from 'discord.js';
 
-import { DiscordEvent } from '../constants';
+import { DiscordEvent } from './discord-events.interface';
 
 /* ================================== INTERFACES ===================================== */
 export type GenericClassDecorator<T> = (target: T) => void;
@@ -35,16 +35,6 @@ export interface IProvider<T = any> {
 export interface IProviderValue extends IProvider {
   getValue: () => any;
   readonly _value: any;
-}
-
-export interface ICustomValueProvider<T = any> {
-  provide: string;
-  useValue: T;
-}
-
-export interface ICustomClassProvider<T = any> {
-  provide: string;
-  useClass: ConstructorType<T>;
 }
 
 export type CommandParserType = {

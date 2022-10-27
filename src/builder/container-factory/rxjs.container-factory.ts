@@ -14,7 +14,7 @@ import {
 } from 'rxjs';
 
 import { RxjsRecursiveCompiler } from '../compilers/rxjs.compiler';
-import { DEFAULT_ACTION_KEY, DiscordEvent } from '../../constants';
+import { DEFAULT_ACTION_KEY } from '../../constants';
 import {
   ComponentsContainer,
   InterceptorsContainer,
@@ -23,7 +23,7 @@ import {
 } from '../containers';
 import { DiscordClient } from '../../entrypoint';
 import { ExecutionContext } from '../../event-execution-context/execution-context';
-import { ConstructorType } from '../../interfaces';
+import { ConstructorType, DiscordEvent } from '../../interfaces';
 import { Logger } from '../../logger';
 import { toArray } from '../../helpers/converters';
 

@@ -16,7 +16,6 @@ export const OPTIONAL_PROPERTY_DEPS_METADATA = 'optional:properties_metadata';
 export const SCOPE_OPTIONS_METADATA = 'scope:options';
 export const DESIGN_TYPE = 'design:type';
 
-export const METHOD_PARAM_METADATA = 'method:params';
 export const METHOD_PARAMS_METADATA_INTERNAL = 'method:params:internal';
 
 export const CUSTOM_INTERCEPTOR = 'design:custom:interceptor';

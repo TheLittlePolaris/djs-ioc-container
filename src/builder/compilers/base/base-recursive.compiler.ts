@@ -6,7 +6,6 @@ import {
   EVENT_HANDLER,
   PARAMTYPES_METADATA,
   SELF_DECLARED_DEPS_METADATA,
-  DiscordEvent,
   COMMAND_HANDLER,
   EVENT_HANDLER_CONFIG,
   INTERCEPTOR_TARGET
@@ -15,10 +14,9 @@ import { isValue, isValueInjector, isClassInjector } from '../../../helpers';
 import {
   ConstructorType,
   IProvider,
-  ICustomValueProvider,
-  ICustomClassProvider,
   ICommandHandlerMetadata,
-  IInterceptor
+  IInterceptor,
+  DiscordEvent
 } from '../../../interfaces';
 import { Logger } from '../../../logger';
 import {
@@ -167,9 +165,9 @@ export abstract class BaseRecursiveCompiler<TReturn> {
           customTokens[parameterIndex]
         );
         /* TODO: class provider */
-        if (isValueInjector(customProvide)) return (customProvide as ICustomValueProvider).useValue;
+        if (isValueInjector(customProvide)) return customProvide.useValue;
         else if (isClassInjector(customProvide))
-          return this.compileComponent(module, (customProvide as ICustomClassProvider).useClass);
+          return this.compileComponent(module, customProvide.useClass);
       }
       const created = this._componentContainer.getInstance(token);
       if (created) return created;
