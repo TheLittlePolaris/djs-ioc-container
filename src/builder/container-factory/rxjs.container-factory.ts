@@ -22,7 +22,7 @@ import {
   ProvidersContainer
 } from '../containers';
 import { DiscordClient } from '../../entrypoint';
-import { ExecutionContext } from '../../event-execution-context/execution-context';
+import { ExecutionContext } from '../../execution-context/execution-context';
 import { ConstructorType, DiscordEvent } from '../../interfaces';
 import { Logger } from '../../logger';
 import { toArray } from '../../helpers/converters';

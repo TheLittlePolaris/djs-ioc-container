@@ -1,4 +1,4 @@
-import { ExecutionContext } from '../event-execution-context/execution-context';
+import { ExecutionContext } from '../execution-context/execution-context';
 
 import { Prototype } from './di.interfaces';
 

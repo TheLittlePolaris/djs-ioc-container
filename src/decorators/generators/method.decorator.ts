@@ -3,7 +3,7 @@ import { isEmpty, isFunction } from 'lodash';
 import { Logger } from '../../logger';
 import { getParamDecoratorResolverValue as getParameterDecoratorResolverValue } from '../../builder';
 import { METHOD_PARAMS_METADATA_INTERNAL } from '../../constants';
-import { ExecutionContext } from '../../event-execution-context';
+import { ExecutionContext } from '../../execution-context';
 import { MethodDecoratorResolver, MethodDecoratorPresetter, FunctionType } from '../../interfaces';
 
 async function compileContextArguments(context: ExecutionContext): Promise<void> {

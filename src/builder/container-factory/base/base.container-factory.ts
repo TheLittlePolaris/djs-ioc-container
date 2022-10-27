@@ -4,7 +4,7 @@ import { BaseHandler } from '../../compilers';
 import { BaseRecursiveCompiler } from '../../compilers/base/base-recursive.compiler';
 import { DEFAULT_ACTION_KEY, InjectToken } from '../../../constants';
 import { DiscordClient } from '../../../entrypoint';
-import { ExecutionContext } from '../../../event-execution-context/execution-context';
+import { ExecutionContext } from '../../../execution-context/execution-context';
 import {
   CommandParserType,
   ConstructorType,

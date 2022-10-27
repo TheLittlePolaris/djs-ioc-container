@@ -10,7 +10,7 @@ import {
 
 import { samePermissions } from '../../helpers';
 import { COMMAND_HANDLER } from '../../constants';
-import { ExecutionContext } from '../../event-execution-context';
+import { ExecutionContext } from '../../execution-context';
 import { ICommandHandlerMetadata } from '../../interfaces';
 import { Logger } from '../../logger';
 import {

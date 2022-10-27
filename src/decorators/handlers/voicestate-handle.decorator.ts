@@ -2,7 +2,7 @@ import { ClientEvents } from 'discord.js';
 
 import { COMMAND_HANDLER, DEFAULT_ACTION_KEY } from '../../constants';
 import { ICommandHandlerMetadata, Prototype } from '../../interfaces';
-import { ExecutionContext } from '../../event-execution-context';
+import { ExecutionContext } from '../../execution-context';
 import {
   createMethodDecorator,
   createParamDecorator as createParameterDecorator

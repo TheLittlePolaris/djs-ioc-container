@@ -1,6 +1,6 @@
 import { isFunction } from 'lodash';
 
-import { ExecutionContext } from '../../event-execution-context';
+import { ExecutionContext } from '../../execution-context';
 import { ParamDecoratorResolver as ParameterDecoratorResolver } from '../../interfaces';
 
 const registry: {

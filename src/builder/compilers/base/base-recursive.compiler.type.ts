@@ -1,5 +1,5 @@
 import { DiscordEvent, DiscordEventConfig } from '../../../interfaces';
-import { ExecutionContext } from '../../../event-execution-context';
+import { ExecutionContext } from '../../../execution-context';
 
 export type BaseHandler<TReturn> = (context: ExecutionContext) => TReturn;
 export interface BaseCommands<TReturn> {

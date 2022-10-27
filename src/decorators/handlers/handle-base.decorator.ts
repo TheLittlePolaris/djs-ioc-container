@@ -1,6 +1,6 @@
 import { COMMAND_HANDLER } from '../../constants';
 import { ICommandHandlerMetadata, Prototype } from '../../interfaces';
-import { ExecutionContext } from '../../event-execution-context';
+import { ExecutionContext } from '../../execution-context';
 import { createMethodDecorator } from '../generators';
 
 export const EventHandler = createMethodDecorator(

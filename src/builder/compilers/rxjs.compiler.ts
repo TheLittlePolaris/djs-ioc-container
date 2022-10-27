@@ -6,7 +6,7 @@ import {
   ModulesContainer,
   ProvidersContainer
 } from '../containers';
-import { ExecutionContext } from '../../event-execution-context';
+import { ExecutionContext } from '../../execution-context';
 import { ConstructorType } from '../../interfaces';
 
 import { BaseRecursiveCompiler } from './base/base-recursive.compiler';
