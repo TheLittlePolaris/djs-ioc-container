@@ -6,7 +6,7 @@ import { Logger } from '../logger';
 
 @Injectable()
 export class DiscordClient extends Client {
-  constructor(@Inject(InjectToken.CLIENT_OPTIONS) options: ClientOptions) {
+  constructor(@Inject(InjectToken.ClientOptions) options: ClientOptions) {
     super(options);
   }
   public get id() {

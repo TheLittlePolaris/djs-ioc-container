@@ -182,8 +182,8 @@
         }
       }
     ],
-    "@typescript-eslint/consistent-type-assertions": "error",
-    "@typescript-eslint/consistent-type-definitions": "error",
+    "@typescript-eslint/consistent-type-assertions": "warn",
+    "@typescript-eslint/consistent-type-definitions": "off",
     "@typescript-eslint/dot-notation": "error",
     "@typescript-eslint/explicit-member-accessibility": [
       "off",
@@ -334,7 +334,7 @@
     "unicorn/catch-error-name": "off",
     "unicorn/numeric-separators-style": "off",
     "unicorn/explicit-length-check": "off",
-    "unicorn/prevent-abbreviations": "warn",
+    "unicorn/prevent-abbreviations": "off",
     "unicorn/better-regex": "warn",
     "unicorn/filename-case": "warn",
     "unicorn/prefer-module": "warn",

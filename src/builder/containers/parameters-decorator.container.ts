@@ -3,7 +3,7 @@ import { isFunction } from 'lodash';
 import { ExecutionContext } from '../../event-execution-context';
 import { ParamDecoratorResolver as ParameterDecoratorResolver } from '../../interfaces';
 
-const _container: {
+const registry: {
   [key: string]: ParameterDecoratorResolver<any>;
 } = {};
 
@@ -11,11 +11,11 @@ export function setParamDecoratorResolver(
   key: string,
   valueResolver: ParameterDecoratorResolver<any>
 ) {
-  _container[key] = valueResolver;
+  registry[key] = valueResolver;
 }
 
 export function getParamDecoratorResolver(key: string): ParameterDecoratorResolver<any> {
-  return _container[key];
+  return registry[key];
 }
 
 export async function getParamDecoratorResolverValue(key: string, context: ExecutionContext) {

@@ -14,9 +14,9 @@ import {
 import { isValue, isValueInjector, isClassInjector } from '../../../helpers';
 import {
   ConstructorType,
-  Provider,
-  CustomValueProvider,
-  CustomClassProvider,
+  IProvider,
+  ICustomValueProvider,
+  ICustomClassProvider,
   ICommandHandlerMetadata,
   IInterceptor
 } from '../../../interfaces';
@@ -62,11 +62,11 @@ export abstract class BaseRecursiveCompiler<TReturn> {
     return this._interceptorContainer;
   }
 
-  private getModuleMetadata(module: ConstructorType<any>, key: ModuleMetadata) {
+  private getModuleMetadata(module: ConstructorType, key: ModuleMetadata) {
     return Reflect.getMetadata(getPropertyKey(key), module);
   }
 
-  async compileModule<T = any>(module: ConstructorType<T>, entryComponent?: ConstructorType<any>) {
+  async compileModule(module: ConstructorType, entryComponent?: ConstructorType<any>) {
     const [providers, modules, interceptors, components] = [
       this.getModuleMetadata(module, ModuleMetadata.PROVIDERS),
       this.getModuleMetadata(module, ModuleMetadata.MODULES),
@@ -99,10 +99,11 @@ export abstract class BaseRecursiveCompiler<TReturn> {
     this._moduleContainer.clear();
   }
 
-  protected async compileProvider(module: ConstructorType, provider: Provider) {
-    if (provider.useValue) this._providerContainer.setValueProvider(module, provider);
-    else if (provider.useFactory) {
-      const { provide, useFactory, injects, imports } = provider;
+  protected async compileProvider(module: ConstructorType, provider: IProvider) {
+    if (provider?.hasOwnProperty('useValue'))
+      this._providerContainer.setValueProvider(module, provider, provider.useValue);
+    else if (provider.hasOwnProperty('useFactory')) {
+      const { useFactory, injects, imports } = provider;
 
       if (imports) await Promise.all(imports.map(async (m) => this.compileModule(m)));
 
@@ -110,26 +111,20 @@ export abstract class BaseRecursiveCompiler<TReturn> {
         ? injects.map((token) => this.componentContainer.getInstance(token))
         : [];
 
-      const useValue = (isFunction(useFactory) && (await useFactory(...injections))) || null;
+      const providerValue = (isFunction(useFactory) && (await useFactory(...injections))) || null;
 
-      this._providerContainer.setValueProvider(module, {
-        provide,
-        useValue
-      } as Provider);
-    } else if (provider.useClass) {
-      const { useClass, provide } = provider;
-      const useValue = this.compileComponent(module, useClass);
-      this._providerContainer.setValueProvider(module, {
-        provide,
-        useValue
-      } as Provider);
+      this._providerContainer.setValueProvider(module, provider, providerValue);
+    } else if (provider.hasOwnProperty('useClass')) {
+      const { useClass } = provider;
+      const providerValue = this.compileComponent(module, useClass);
+      this._providerContainer.setValueProvider(module, provider, providerValue);
     }
   }
 
   /**
    * Find the instance for injection, if exists then inject it, if not create it and store it
    */
-  compileComponent(module: ConstructorType<any>, target: ConstructorType<any>) {
+  compileComponent(module: ConstructorType, target: ConstructorType) {
     if (isValue(target)) return;
 
     const createdInstance = this._componentContainer.getInstance(target);
@@ -144,8 +139,8 @@ export abstract class BaseRecursiveCompiler<TReturn> {
   }
 
   protected async compileHandlerForEvent(
-    target: ConstructorType<any>,
-    compiledInstance: InstanceType<ConstructorType<any>>
+    target: ConstructorType,
+    compiledInstance: InstanceType<ConstructorType>
   ) {
     const eventHandler = Reflect.getMetadata(EVENT_HANDLER, target);
     if (eventHandler) this.defineHandler(eventHandler, target, compiledInstance);
@@ -160,11 +155,11 @@ export abstract class BaseRecursiveCompiler<TReturn> {
     return compiledInstance;
   }
 
-  protected loadInjectionsForTarget(module: ConstructorType<any>, target: ConstructorType<any>) {
-    const tokens: ConstructorType<any>[] = Reflect.getMetadata(PARAMTYPES_METADATA, target) || [];
+  protected loadInjectionsForTarget(module: ConstructorType, target: ConstructorType) {
+    const tokens: ConstructorType[] = Reflect.getMetadata(PARAMTYPES_METADATA, target) || [];
     const customTokens: { [paramIndex: string]: /* param name */ string } =
       Reflect.getMetadata(SELF_DECLARED_DEPS_METADATA, target) || [];
-    return tokens.map((token: ConstructorType<any>, parameterIndex: number) => {
+    return tokens.map((token: ConstructorType, parameterIndex: number) => {
       if (customTokens && customTokens[parameterIndex]) {
         // module-based value provider
         const customProvide = this._providerContainer.getProvider(
@@ -172,13 +167,9 @@ export abstract class BaseRecursiveCompiler<TReturn> {
           customTokens[parameterIndex]
         );
         /* TODO: class provider */
-        if (isValueInjector(customProvide))
-          return (customProvide as CustomValueProvider<any>).useValue;
+        if (isValueInjector(customProvide)) return (customProvide as ICustomValueProvider).useValue;
         else if (isClassInjector(customProvide))
-          return this.compileComponent(
-            module,
-            (customProvide as CustomClassProvider<any>).useClass
-          );
+          return this.compileComponent(module, (customProvide as ICustomClassProvider).useClass);
       }
       const created = this._componentContainer.getInstance(token);
       if (created) return created;
@@ -248,7 +239,10 @@ export abstract class BaseRecursiveCompiler<TReturn> {
     assign(this.eventHandlers[event].handlers, commandHandlers);
   }
 
-  protected compileInterceptor(module: ConstructorType<any>, interceptorTarget: ConstructorType<any>) {
+  protected compileInterceptor(
+    module: ConstructorType<any>,
+    interceptorTarget: ConstructorType<any>
+  ) {
     if (isValue(interceptorTarget)) return;
 
     const interceptor = this._interceptorContainer.getInterceptorInstance(interceptorTarget.name);

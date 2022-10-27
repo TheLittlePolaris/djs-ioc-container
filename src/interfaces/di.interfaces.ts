@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { Client } from 'discord.js';
+import { Client, ClientEvents, Events } from 'discord.js';
 
 import { DiscordEvent } from '../constants';
 
@@ -21,45 +21,62 @@ export interface Prototype {
   constructor: (...arguments_: any[]) => any;
 }
 
-export type Provider<T = any> = CustomValueProvider<T> &
-  CustomClassProvider<T> &
-  CustomFactoryProvider<T>;
+export interface IProvider<T = any> {
+  provide: string;
 
-export interface CustomValueProvider<T> {
+  useClass?: ConstructorType<T>;
+  useValue?: T;
+
+  imports?: ConstructorType<any>[];
+  injects?: ConstructorType<any>[];
+  useFactory?: (...injections: any[]) => T;
+}
+
+export interface IProviderValue extends IProvider {
+  getValue: () => any;
+  readonly _value: any;
+}
+
+export interface ICustomValueProvider<T = any> {
   provide: string;
   useValue: T;
 }
 
-export interface CustomClassProvider<T> {
+export interface ICustomClassProvider<T = any> {
   provide: string;
   useClass: ConstructorType<T>;
 }
 
-export interface CustomFactoryProvider<T> {
-  provide: string;
-  imports?: ConstructorType<any>[];
-  injects?: ConstructorType<any>[];
-  useFactory: (..._injections: InstanceType<ConstructorType<any>>[]) => T;
+export type CommandParserType = {
+  [key in DiscordEvent]?: (eventArgs: ClientEvents[DiscordEvent]) => string;
+};
+
+export type GlobalInterceptorType = {
+  [key in Events]?: ((eventArgs, customConfig?: any) => boolean)[];
+};
+
+export interface IAppConfig {
+  token: string;
+  prefix: string;
 }
 
-export interface CustomProviderToken {
+export interface ICustomProviderToken {
   [key: string]: number | string;
 }
 
-export interface ModuleOption {
-  providers?: CustomValueProvider<any>[];
-  modules?: ConstructorType<any>[];
-  components?: ConstructorType<any>[];
-  interceptors?: ConstructorType<any>[];
-  entryComponent?: ConstructorType<any>;
+export interface IModuleOption {
+  providers?: IProvider[];
+  modules?: ConstructorType[];
+  components?: ConstructorType[];
+  interceptors?: ConstructorType[];
 }
 
-export interface EntryComponent {
+export interface IEntryComponent {
   start: (token: string) => void | Promise<void>;
   client: Client;
 }
 
-export interface OnComponentInit {
+export interface IOnComponentInit {
   onComponentInit: () => any;
 }
 

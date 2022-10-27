@@ -1,29 +1,19 @@
 import { getPropertyKey, ModuleMetadata } from '../../constants';
-import { RecursiveContainerFactory } from '../../builder/container-factory';
-import { GenericClassDecorator, ModuleOption, ConstructorType } from '../../interfaces';
+import { GenericClassDecorator, IModuleOption, ConstructorType } from '../../interfaces';
 
-export function YuiModule<T = any>(options: ModuleOption): GenericClassDecorator<ConstructorType<T>> {
+export function Module(options: IModuleOption): GenericClassDecorator<ConstructorType> {
   const propertyKeys = Object.keys(options);
-  propertyKeys.map((key: string) => {
-    if (key === 'entryComponent') return;
-
+  propertyKeys.forEach((key: string) => {
     if (!options[key].length) return delete options[key];
 
-    options[key].map((record) => {
+    options[key].forEach((record) => {
       if (!record)
         throw new Error(`Cannot resolve ${record} of property ${key} in module metadata`);
     });
   });
-  return (target: ConstructorType<any>) => {
+  return (target: ConstructorType) => {
     for (const property in options) {
       if (!Object.prototype.hasOwnProperty.call(options, property)) continue;
-
-      if (property === 'entryComponent') {
-        if (RecursiveContainerFactory.entryDetected)
-          throw new Error(`Multiple entry detected: ${target.name}`);
-
-        RecursiveContainerFactory.entryDetected = true;
-      }
 
       if (options.hasOwnProperty(property))
         Reflect.defineMetadata(

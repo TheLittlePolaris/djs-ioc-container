@@ -6,7 +6,7 @@ import {
   GenericClassDecorator,
   Prototype,
   ConstructorType
-} from '../../interfaces/dependencies-injection.interfaces';
+} from '../../interfaces/di.interfaces';
 
 export function Entrypoint<T = any>(): GenericClassDecorator<ConstructorType<T>> {
   return (target: ConstructorType<T>) => {

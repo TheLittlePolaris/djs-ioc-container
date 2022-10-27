@@ -1,6 +1,6 @@
 import { ExecutionContext } from '../event-execution-context/execution-context';
 
-import { Prototype } from './dependencies-injection.interfaces';
+import { Prototype } from './di.interfaces';
 
 export type MethodDecoratorResolver = (
   context: ExecutionContext

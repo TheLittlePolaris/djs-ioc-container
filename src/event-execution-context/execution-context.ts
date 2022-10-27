@@ -29,7 +29,7 @@ export class ExecutionContext {
     contextMetadata?: IExecutionContextMetadata,
     contextHandler?: FunctionType
   ) {
-    this._arguments = !isArray(inputArguments) ? clone([inputArguments]) : clone(inputArguments);
+    this._arguments = clone(inputArguments)
 
     this.setArguments(this._arguments);
 
