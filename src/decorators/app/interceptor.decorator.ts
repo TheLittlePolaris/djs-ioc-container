@@ -7,7 +7,9 @@ export function Interceptor(forEvent: DiscordEvent): GenericClassDecorator<Const
   };
 }
 
-export function UseInterceptor(interceptorFunction?: ConstructorType<any>): GenericClassDecorator<ConstructorType<any>> {
+export function UseInterceptor(
+  interceptorFunction?: ConstructorType<any>
+): GenericClassDecorator<ConstructorType<any>> {
   return (target: ConstructorType<any>) => {
     if (interceptorFunction?.name) {
       const isCorrect = Reflect.getMetadata(CUSTOM_INTERCEPTOR, interceptorFunction);

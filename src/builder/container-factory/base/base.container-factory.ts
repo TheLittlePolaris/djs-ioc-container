@@ -1,6 +1,6 @@
 import { ClientEvents } from 'discord.js';
 
-import { BaseHandler } from '../../compilers';
+import { CommandHandler } from '../../compilers';
 import { BaseRecursiveCompiler } from '../../compilers/base/base-recursive.compiler';
 import { DEFAULT_ACTION_KEY, InjectToken } from '../../../constants';
 import { DiscordClient } from '../../../entrypoint';
@@ -49,7 +49,7 @@ export abstract class BaseContainerFactory<TReturn> {
   protected handleEvent(
     event: DiscordEvent,
     context: ExecutionContext
-  ): ReturnType<BaseHandler<TReturn>> {
+  ): ReturnType<CommandHandler<TReturn>> {
     const command = this.getCommand(event, context.getArguments());
 
     const commandHandler = this.getHandler(event, command);
@@ -91,5 +91,5 @@ export abstract class BaseContainerFactory<TReturn> {
   protected abstract getHandler(
     event: keyof ClientEvents,
     command: string | false
-  ): BaseHandler<TReturn>;
+  ): CommandHandler<TReturn>;
 }

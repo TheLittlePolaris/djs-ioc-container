@@ -5,7 +5,10 @@ import { IEntryComponent, ConstructorType } from '../../interfaces';
 export type Instance<T extends ConstructorType<any>> = InstanceType<T>;
 
 export class ModulesContainer {
-  private readonly _modules: Collection<string, ConstructorType<any>> = new Collection<string, ConstructorType<any>>();
+  private readonly _modules: Collection<string, ConstructorType<any>> = new Collection<
+    string,
+    ConstructorType<any>
+  >();
   private _entryComponentType: ConstructorType<IEntryComponent> = null;
 
   public get modules() {
