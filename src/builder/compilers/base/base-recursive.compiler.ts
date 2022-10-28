@@ -26,10 +26,14 @@ import {
   InterceptorsContainer
 } from '../../containers';
 
-import { BaseEventsHandlers, BaseCommands, BaseHandler } from './base-recursive.compiler.type';
+import {
+  IEventHandlerRegistry,
+  ICommandRegistry,
+  CommandHandler
+} from './base-recursive.compiler.type';
 
 export abstract class BaseRecursiveCompiler<TReturn> {
-  protected _eventHandlers: BaseEventsHandlers<TReturn> = {};
+  protected _eventHandlers: IEventHandlerRegistry<TReturn> = {};
 
   constructor(
     protected _moduleContainer: ModulesContainer,
@@ -179,7 +183,7 @@ export abstract class BaseRecursiveCompiler<TReturn> {
     if (this.eventHandlers[event]) return;
 
     this.eventHandlers[event] = {
-      handlers: {} as BaseCommands<TReturn>
+      commands: {} as ICommandRegistry<TReturn>
     };
   }
 
@@ -206,9 +210,9 @@ export abstract class BaseRecursiveCompiler<TReturn> {
     target: ConstructorType<any>,
     instance: InstanceType<ConstructorType<any>>,
     handlerMetadata: ICommandHandlerMetadata[]
-  ): BaseCommands<TReturn> {
+  ): ICommandRegistry<TReturn> {
     return handlerMetadata.reduce(
-      (accumulator: BaseCommands<TReturn>, { command, propertyKey, commandAliases }) => {
+      (accumulator: ICommandRegistry<TReturn>, { command, propertyKey, commandAliases }) => {
         const commandFunction = this.compileCommand(target, instance, propertyKey);
         const mainCommand = { [command]: commandFunction };
         const aliases = [...(commandAliases || [])].reduce(
@@ -220,7 +224,7 @@ export abstract class BaseRecursiveCompiler<TReturn> {
         );
         return Object.assign(accumulator, mainCommand, aliases);
       },
-      {} as BaseCommands<TReturn>
+      {} as ICommandRegistry<TReturn>
     );
   }
 
@@ -232,9 +236,9 @@ export abstract class BaseRecursiveCompiler<TReturn> {
 
   protected assignHandleFunctions(
     event: DiscordEvent,
-    commandHandlers: BaseCommands<TReturn>
+    commandHandlers: ICommandRegistry<TReturn>
   ): void {
-    assign(this.eventHandlers[event].handlers, commandHandlers);
+    assign(this.eventHandlers[event].commands, commandHandlers);
   }
 
   protected compileInterceptor(
@@ -263,5 +267,5 @@ export abstract class BaseRecursiveCompiler<TReturn> {
     target: ConstructorType<any>,
     instance: InstanceType<ConstructorType<any>>,
     propertyKey: string
-  ): BaseHandler<TReturn>;
+  ): CommandHandler<TReturn>;
 }

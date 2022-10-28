@@ -1,4 +1,4 @@
-import { FunctionType } from '../interfaces';
+import { FunctionType } from '../../interfaces';
 
 export interface IExecutionContextMetadata {
   target: any;

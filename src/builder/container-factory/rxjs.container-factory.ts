@@ -117,7 +117,7 @@ export class RxjsContainerFactory extends BaseContainerFactory<Observable<any>> 
     if (command === false) return (..._arguments: any) => of(noop);
 
     const { [command]: compiledCommand = null, [DEFAULT_ACTION_KEY]: defaultAction } =
-      this.eventHandlers[event].handlers;
+      this.eventHandlers[event].commands;
 
     return compiledCommand || defaultAction;
   }

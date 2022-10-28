@@ -1,10 +1,10 @@
-import { clone, get, isArray } from 'lodash';
+import { clone, get } from 'lodash';
 
 import { DiscordClient } from '../entrypoint';
 import { FunctionType, Prototype, ConstructorType } from '../interfaces';
 import { Logger } from '../logger';
 
-import { IExecutionContextMetadata } from './execution-context.interface';
+import { IExecutionContextMetadata } from './interfaces';
 
 export class ExecutionContext {
   static client: DiscordClient;
@@ -29,7 +29,7 @@ export class ExecutionContext {
     contextMetadata?: IExecutionContextMetadata,
     contextHandler?: FunctionType
   ) {
-    this._arguments = clone(inputArguments)
+    this._arguments = clone(inputArguments);
 
     this.setArguments(this._arguments);
 
