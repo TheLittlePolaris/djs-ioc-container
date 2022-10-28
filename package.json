@@ -5,8 +5,10 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prebuild": "rimraf dist",
-    "build": "npm run prebuild && tsc -p tsconfig.json"
+    "prebuild": "rimraf dist *.tsbuildinfo",
+    "build": "npm run lint && npm run pretty && tsc -p tsconfig.json",
+    "lint": "eslint 'src/**/*.ts' --quiet --ext .ts --fix",
+    "pretty": "prettier --config .prettierrc --write ./src"
   },
   "keywords": [
     "ioc"
@@ -31,6 +33,7 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prefer-arrow": "^1.2.3",
     "eslint-plugin-unicorn": "^44.0.2",
+    "prettier": "^2.7.1",
     "rimraf": "^3.0.2",
     "typescript": "^4.8.4"
   },

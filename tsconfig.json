@@ -19,7 +19,8 @@
     "outDir": "dist",
     "baseUrl": ".",
     "incremental": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "rootDir": "src"
     // "strict": true
   },
   "include": ["./src/**/*"],
